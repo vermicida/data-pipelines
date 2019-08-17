@@ -1,0 +1,108 @@
+{
+    "Parameters": {
+        "RoleNameParam": {
+            "Type": "String"
+        },
+        "ClusterIdentifierParam": {
+            "Type": "String"
+        },
+        "ClusterTypeParam": {
+            "Type": "String"
+        },
+        "NodeTypeParam": {
+            "Type": "String"
+        },
+        "DBNameParam": {
+            "Type": "String"
+        },
+        "PortParam": {
+            "Type": "Number"
+        },
+        "MasterUsernameParam": {
+            "Type": "String"
+        },
+        "MasterUserPasswordParam": {
+            "Type": "String"
+        }
+    },
+    "Resources": {
+        "SparkifyRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName": {
+                    "Ref": "RoleNameParam"
+                },
+                "Path": "/",
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                        "Effect": "Allow",
+                        "Action": [
+                            "sts:AssumeRole"
+                        ],
+                        "Principal": {
+                            "Service": [
+                                "redshift.amazonaws.com"
+                            ]
+                        }
+                    }]
+                },
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+                ]
+            }
+        },
+        "SparkifyCluster": {
+            "Type": "AWS::Redshift::Cluster",
+            "Properties": {
+                "ClusterIdentifier": {
+                    "Ref": "ClusterIdentifierParam"
+                },
+                "ClusterType": {
+                    "Ref": "ClusterTypeParam"
+                },
+                "NodeType": {
+                    "Ref": "NodeTypeParam"
+                },
+                "DBName": {
+                    "Ref": "DBNameParam"
+                },
+                "Port": {
+                    "Ref": "PortParam"
+                },
+                "MasterUsername": {
+                    "Ref": "MasterUsernameParam"
+                },
+                "MasterUserPassword": {
+                    "Ref": "MasterUserPasswordParam"
+                },
+                "IamRoles": [{
+                    "Fn::GetAtt": [
+                        "SparkifyRole",
+                        "Arn"
+                    ]
+                }]
+            }
+        }
+    },
+    "Outputs": {
+        "SparkifyRoleArn": {
+            "Description": "The Sparkify role ARN",
+            "Value": {
+                "Fn::GetAtt": [
+                    "SparkifyRole",
+                    "Arn"
+                ]
+            }
+        },
+        "SparkifyClusterEndpoint": {
+            "Description": "The Sparkify cluster endpoint",
+            "Value": {
+                "Fn::GetAtt": [
+                    "SparkifyCluster",
+                    "Endpoint.Address"
+                ]
+            }
+        }
+    }
+}
