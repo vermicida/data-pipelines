@@ -35,9 +35,13 @@ This tree shows the repository structure. Only the project's main files are desc
 ├── images
 │   ├── airflow-connections-01.png
 │   ├── airflow-connections-02.png
+│   ├── airflow-dag-01.png
+│   ├── airflow-dag-02.png
+│   ├── airflow-dag-03.png
+│   ├── airflow-dag-04.png
+│   ├── airflow-variables-01.png
+│   ├── airflow-variables-02.png
 │   ├── create-stack.png
-│   ├── dag-graph-view.png
-│   ├── dag-tree-view.png
 │   ├── default-vpc-01.png
 │   ├── default-vpc-02.png
 │   ├── user-01.png
@@ -77,6 +81,9 @@ This tree shows the repository structure. Only the project's main files are desc
 
 It is assumed that the tools below are properly installed locally:
 
+- [Python](https://www.python.org/) is a programming language that lets you work quickly and integrate systems more effectively. Versión 3.x is required.
+- [pip](https://pip.pypa.io/en/stable/) is the package installer for Python.
+- [Virtualenv](https://virtualenv.pypa.io/en/latest/) is a tool to create isolated Python environments.
 - [Amazon Web Services](https://aws.amazon.com/) is the world's most comprehensive and broadly adopted cloud platform, offering over 165 fully featured services from data centers globally.
 - [Docker Engine / Desktop](https://hub.docker.com/search/?type=edition&offering=community) powers millions of applications worldwide, providing a standardized packaging format for diverse applications.
 
@@ -104,16 +111,7 @@ And lastly, once the user is created, download its credentials clicking the butt
 
 <img src="images/user-04.png" width="681" alt="User keys">
 
-Have the user credentials on hand, we will use them right now. **NOTE:** you can use the credentials of any user having the proper permissions.
-
-Go to the file `src/aws/sparkify.cfg` and paste the credentials in the following keys:
-
-```ini
-...
-ACCESS_KEY_ID = the-access-key-id
-SECRET_ACCESS_KEY = the-secret-access-key
-...
-```
+Have the user credentials on hand, we will use later. **NOTE:** you can use the credentials of any user having the proper permissions.
 
 #### Default VPC<a name="default-vpc"></a>
 
@@ -177,6 +175,15 @@ The Sparkify stack will create the following resources:
 
 - A [AWS Redshift](https://aws.amazon.com/redshift/) cluster that we will use as data warehouse
 - A [IAM](https://aws.amazon.com/iam/) role to access to S3 in a properly way
+
+Go to the file `src/aws/sparkify.cfg` and paste the credentials you get [before](#creating-an-administrator) in the following keys:
+
+```ini
+...
+ACCESS_KEY_ID = the-access-key-id
+SECRET_ACCESS_KEY = the-secret-access-key
+...
+```
 
 Go back to your Terminal and run the following script:
 
