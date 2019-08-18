@@ -19,7 +19,7 @@ config = Variable.get('sparkify_config', deserialize_json=True)
 dag = DAG(
     'sparkify',
     description='Sparkify data pipeline',
-    schedule_interval='0 * * * *',
+    schedule_interval='@hourly',
     catchup=False,
     default_args={
         'owner': 'udacity',
